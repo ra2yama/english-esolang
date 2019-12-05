@@ -1,7 +1,7 @@
 # english-esolang
 An esolang modeled to look like poetry.
 
-#Syntax
+# Syntax
 
 a [variable name] : Instantiate a variable. The initial value is set to null.
 [variable] is [value] : Set a variable as [value]. Variables need to be instantiated before being set. This is ended with '...'
