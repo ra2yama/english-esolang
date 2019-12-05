@@ -1,15 +1,15 @@
 exports.parse = (program) => { // parses the program
-    return parseExpression(program, []);
+    return parseExpression(program, {list: [], hasFunc: false});
 }
 
 // an expression can be a bool, word, or number
 
-function parseExpression (program, paramList) {
+function parseExpression (program, params) {
     program = skipSpace(program);
     let match, expr;
 
     if (program[0] == "," || program[0] == ".") {
-        return parseApply({type: "eol", value: ","}, program.substr(1), paramList);
+        return parseApply({type: "eol", value: ","}, program.substr(1), params);
     }
 
     var first = program.split(/[\s,.]+/)[0];
@@ -22,43 +22,48 @@ function parseExpression (program, paramList) {
         expr = {type: "number", value: parseFloat(first)};
     }
 
-    return parseApply(expr, program.substr(first.length), paramList);
+    return parseApply(expr, program.substr(first.length), params);
 
 }
 
-function parseApply (expr, rest, paramList) {
+function parseApply (expr, rest, params) {
     var program = skipSpace(rest);
 
     if (expr.value == ",") { // uh oh
-        return [properApply(paramList), parseExpression(rest, [])];
+        return [properApply(params), parseExpression(rest, {list: [], hasFunc: false})];
     }
 
     if (expr.type == "word" && capital(expr.value)) { // It's a function
         console.log("bru");
         expr.value = simplify(expr.value);
-        paramList.push({type: "apply", operator: expr, args:[]})
+        params.list.push({type: "apply", operator: expr, args:[]})
+        params.hasFunc = true;
 
         if (rest.length <= 1) { // This is the last element in the orignal list, and you can return the evaluation
-            return properApply(paramList);
+            return properApply(params);
         }
 
-        return parseExpression(rest, paramList)
+        if (params.hasFunc) {
+
+        }
+
+        return parseExpression(rest, params)
     } else { // Not a function
-        paramList.push(expr);
+        params.list.push(expr);
 
         if (rest.length <= 1) { // This is the last element in the orignal list, and you can return the evaluation
-            return properApply(paramList);
+            return properApply(params);
         }
 
-        return parseExpression(rest, paramList);
+        return parseExpression(rest, params);
     }
 }
 
-function properApply (paramList) { // turns a list of parameters into a working apply function
+function properApply (params) { // turns a list of parameters into a working apply function
     var f;
     var args = [];
 
-    paramList.forEach(e => {
+    params.list.forEach(e => {
         if (e.type == "apply") {
             f = e;
         } else {
