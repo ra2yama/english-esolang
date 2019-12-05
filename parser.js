@@ -80,7 +80,7 @@ function properApply (params) { // turns a list of parameters into a working app
 }
 
 function simplify (str) {
-    if (str.endsWith("s")) { // for verb endings like eatS
+    if (str.endsWith("s")) { // for verb endings like eats
         return str.substr(0, str.length - 1);
     } else if (str.endsWith("ed")) { // for past tense
         return str.substr(0, str.length - 1);
