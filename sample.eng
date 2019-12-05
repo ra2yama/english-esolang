@@ -12,12 +12,14 @@ a [variable name] : Instantiate a variable. The initial value is set to null.
 
 NOTES/BEHAVIOUR:
 
+Namespaces are global.
+
 Function calls are ended by punctuation.
     ',' and '.' ends Functions
 
 Primitives:
     boolean: truth, falsehood
-    Number: 1, 2, 3, 4.5, etc...
+    Number: 1, 2, 3, 4.5, etc... OR one, two, three, four, five
     String: "bob", "orange", etc...
 
 Parameters are separated by "and".
@@ -26,6 +28,14 @@ Parameters are separated by "and".
         "Add" is a function representing "append()"
         "the dog" is a String
         This would evaluate to [He + "the dog"]
+
+Nested functions are denoted by '-'
+    The nested function ends at a "," or a "."
+    Or if they are treated like Verb Subject Object if two functions appear in a expression
+    e.g. "The Dog Eats - one Plus - Together three and four, oranges," * 'oranges is ignored
+        would evaluate to : "Eats(The dog, (1 + (3 + 4)), "oranges")"
+    Which, if using VSO, looks like:
+        "The Dog and Oranges Eat Plus one Together three and four,"
 
 Sentence structure doesn't matter
     "Add one and two" is the same as:
