@@ -14,6 +14,14 @@ NOTES/BEHAVIOUR:
 
 Namespaces are global.
 
+IMPLEMENT: The parser just returns the paramList, 
+    and it's the evaluators job to look at the defined functions and their parameters to see if they're a function.
+    Theoretically everything is a function, but some have parameters.
+        push the ones that do to an apply type
+    
+    IDK maybe a pre-evaulator? that looks for definitions, but it has to be fully recursive, and work its way down the evaluation tree
+
+
 Function calls are ended by punctuation.
     ',' and '.' ends Functions
 
